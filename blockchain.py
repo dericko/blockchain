@@ -2,9 +2,9 @@ import hashlib
 import json
 
 from time import time
-from uuid import uuid4
 from urllib.parse import urlparse
 import requests
+
 
 class Blockchain(object):
     def __init__(self):
@@ -152,7 +152,7 @@ class Blockchain(object):
     """
     @staticmethod
     def hash(block):
-        block_string = json.dumps(block, sort_keys=True).encode() # sorted
+        block_string = json.dumps(block, sort_keys=True).encode()  # sorted
         return hashlib.sha256(block_string).hexdigest()
 
     """

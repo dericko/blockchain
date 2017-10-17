@@ -1,5 +1,4 @@
 import sys
-import requests
 from flask import Flask, jsonify, request
 from uuid import uuid4
 from blockchain import Blockchain
@@ -13,6 +12,7 @@ port = len(sys.argv) > 1 and sys.argv[1] or 5000
 node_identifier = str(uuid4()).replace('-', '')
 
 blockchain = Blockchain()
+
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -39,6 +39,7 @@ def mine():
     }
     return jsonify(response), 200
 
+
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
@@ -54,10 +55,13 @@ def new_transaction():
         return 'Error: Missing values', 400
 
     # Create new transaction
-    index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
+    index = blockchain.new_transaction(values['sender'],
+                                       values['recipient'],
+                                       values['amount'])
 
     response = {'message': f'Transaction added to block{index}'}
     return jsonify(response), 201
+
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
@@ -66,6 +70,7 @@ def full_chain():
         'length': len(blockchain.chain),
     }
     return jsonify(response), 200
+
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
@@ -94,6 +99,7 @@ def register_nodes():
 
     return jsonify(response), 201
 
+
 @app.route('/nodes/register/sync', methods=['POST'])
 def register_ping():
     print("register_ping")
@@ -109,6 +115,7 @@ def register_ping():
         blockchain.register_node(node)
     print("Registered")
     return jsonify("OK"), 201
+
 
 @app.route('/nodes/resolve', methods=['GET'])
 def consensus():
@@ -126,6 +133,7 @@ def consensus():
         }
 
     return jsonify(response), 200
+
 
 if __name__ == '__main__':
     app.run(host=host, port=port)
