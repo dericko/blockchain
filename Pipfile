@@ -8,5 +8,5 @@ name = "pypi"
 [packages]
 
 pip = "*"
-Flask = "==0.12.2"
+Flask = "==1.0"
 requests = "==2.18.4"
